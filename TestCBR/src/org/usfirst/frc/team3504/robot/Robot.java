@@ -1,5 +1,7 @@
-
 package org.usfirst.frc.team3504.robot;
+
+
+import java.util.logging.*;
 
 import org.usfirst.frc.team3504.robot.subsystems.*;
 
@@ -14,19 +16,22 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static Chassis chassis;
 	public static Camera camera;
-
-	
+	public final static Logger log = Logger.getGlobal();
+		
     Command autonomousCommand;
     SendableChooser chooser;
-
+     
     public void robotInit() {	
-    	System.out.println("robot init");
-		oi = new OI();
+    	log.setLevel(Level.ALL);    
+    	log.info("robotInit");
+    	
+    	oi = new OI();
 		chassis = new Chassis();
     	camera = new Camera();
+    	
 		
-     chooser = new SendableChooser();
-     SmartDashboard.putData("Chooser", chooser);
+    	chooser = new SendableChooser();
+    	SmartDashboard.putData("Chooser", chooser);
     }
 	
     public void disabledInit(){

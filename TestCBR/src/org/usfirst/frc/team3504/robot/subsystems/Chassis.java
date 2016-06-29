@@ -6,9 +6,6 @@ import org.usfirst.frc.team3504.robot.commands.*;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- *
- */
 public class Chassis extends Subsystem {
 	
 	private CANTalon motor;
@@ -21,8 +18,6 @@ public class Chassis extends Subsystem {
 	}
 	
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
     	setDefaultCommand(new DoNothing());
     }
     
@@ -42,4 +37,3 @@ public class Chassis extends Subsystem {
     	motor.set(0);
     }
 }
-
