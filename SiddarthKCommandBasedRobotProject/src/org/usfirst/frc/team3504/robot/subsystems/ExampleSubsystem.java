@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team3504.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -5,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class ExampleSubsystemClass extends Subsystem {
+public class ExampleSubsystem extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
