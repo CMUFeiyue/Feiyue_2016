@@ -1,13 +1,22 @@
 package org.usfirst.frc.team3504.robot;
 
 import edu.wpi.first.wpilibj.buttons.Button;
-import org.usfirst.frc.team3504.robot.commands.ExampleCommand;
-
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.usfirst.frc.team3504.robot.commands.DriveForward;
+import org.usfirst.frc.team3504.robot.commands.DriveBackward;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	Joystick joystickName = new Joystick(RobotMap.JOYSTICK_PORT);
+	Button button1 = new JoystickButton(joystickName, 1);
+	Button button2 = new JoystickButton(joystickName, 2);
+	public OI () {
+		button1.whileHeld(new DriveForward());
+		button2.whenPressed(new DriveBackward());
+	}
     //// CREATING BUTTONS
     // One type of button is a joystick button which is any button on a joystick.
     // You create one by telling it which joystick it's on and which button
