@@ -14,7 +14,8 @@ public class UpdateCam extends Command {
     }
 
     protected void execute() {
-    	Robot.camera.getImage();
+    //	Robot.camera.getImage();
+    	Robot.camera.readNetworkTable();
     }
 
     protected boolean isFinished() {

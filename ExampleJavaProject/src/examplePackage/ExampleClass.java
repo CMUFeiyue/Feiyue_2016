@@ -1,5 +1,14 @@
 package examplePackage;
 
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.opencv.core.Mat;
+import org.opencv.core.Core;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.highgui.Highgui;
+import org.opencv.highgui.VideoCapture;
 /**
  * Example reference class to test the setup of github,
  * demonstate typical class structure, and provide an
@@ -8,7 +17,7 @@ package examplePackage;
  */
 
 public class ExampleClass {
-	
+	public final static Logger log = Logger.getLogger(ExampleClass.class.getName());
 	/**
 	 * Example types and class variables
 	 */
@@ -19,7 +28,30 @@ public class ExampleClass {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("Hello World!");
+		log.setLevel(Level.ALL);
+		log.info("Camera init");
+
+		/*
+		VideoCapture cam = new VideoCapture(2);
+		
+		log.info("Attempting to open camera");
+		while(!cam.isOpened()) {
+			cam.open(2);
+		}
+		*/
+		
+		log.info("Camera opened");
+		
+//	/	cam.set(CV_CAP_PROP_EXPOSURE_ABSOLUTE, 0.1);
+		
+		Mat frame = new Mat();
+		String path = ("C:\\Users\\Girls of Steel\\Pictures\\Camera Roll\\WIN_20160110_22_38_52_Pro.jpg");
+		frame = Imgcodecs.imread(path);
+		//cam.read(frame);
+		log.info("Read frame");
+		
+		Highgui.imwrite("//Desktop//camera.jpg", frame);
+		log.info("Done");
 	}
 	
 	/**
