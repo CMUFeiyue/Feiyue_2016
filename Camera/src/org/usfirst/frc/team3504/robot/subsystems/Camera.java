@@ -10,7 +10,6 @@ import com.ni.vision.NIVision.Image;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  *
@@ -29,37 +28,45 @@ public class Camera extends Subsystem {
 		log.setLevel(Level.ALL);
 		log.info("Camera init");
 		
+		String camName = "cam0";
+		
 		try {
-			cam = NIVision.IMAQdxOpenCamera("cam0", 
+			cam = NIVision.IMAQdxOpenCamera(camName, 
 					NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		} catch (Exception ex) {
-			log.severe("Camera() failed to open the camera (cam0)!");
+			log.severe("Camera() failed to open the camera (" + camName + ")!");
 			cam = INVALID_CAMERA;
 		}
+		
+		log.info("cam: " + cam);
 		
 		if (cam != INVALID_CAMERA) {
 			NIVision.IMAQdxConfigureGrab(cam);				
 			NIVision.IMAQdxStartAcquisition(cam);
 		}
 		
+		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		log.info("Camera started");
 		
 		server = CameraServer.getInstance();
+		log.info("Got server");
+		
 		server.setQuality(50);
+		
+		log.info("Done camera init");
 	}
 	
 	public Image getImage() {
 		if (cam != INVALID_CAMERA) {
 			NIVision.IMAQdxGrab(cam, frame, 1);
-			server.setImage(frame);
+		//	server.setImage(frame);
 			return frame;
 		}
 		return null;
 	}
 
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-    	setDefaultCommand(new UpdateCam());
+       	setDefaultCommand(new UpdateCam());
     }
 }
 

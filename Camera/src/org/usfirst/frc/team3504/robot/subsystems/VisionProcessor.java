@@ -24,21 +24,28 @@ public class VisionProcessor extends Subsystem {
 
 	//count of targets to ensure unique target ids
 	static int targetCount = 0;
+	ArrayList<Target> targets = new ArrayList<Target>();
 	public final static Logger log = Logger.getLogger(VisionProcessor.class.getName());
 	
 	public VisionProcessor() {	
 		CameraType camType = CameraType.AXIS_M10011;
+		Target test = new Target("Tote", 0.5, 75.0, 100, 255, 0, 80, 0, 80);
+		targets.add(test);
+	}
+	
+	public void calibrateTargets() {
+		
 	}
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
     }
     
-    public void findTote(Image inputImg) {
+    public Image findTote(Image inputImg) {
     	log.info("Running vision pipeline");
-		Target tote = new Target("Tote", 0.5, 75.0, 100, 255, 0, 80, 0, 80);
-    	findTarget(inputImg, tote);
+    	Image outputImg = findTarget(inputImg, test);
     	log.info("Found tote");
+    	return outputImg;
     }
 	
 	/**
@@ -47,10 +54,14 @@ public class VisionProcessor extends Subsystem {
 	 * @param inputImg the image to be processed
 	 * @param target the target to be found in the image
 	 */
-	public void findTarget(Image inputImg, Target target) {
+	public Image findTarget(Image inputImg, Target target) {
 		Image thresholdedImage = thresholdImage(inputImg, target);
+		return thresholdedImage;
+		/*
 		ArrayList<Particle> particles = identifyParticles(thresholdedImage, target);
-		drawParticleBox(inputImg, particles);
+		Image boxImg = drawParticleBox(inputImg, particles);
+		return boxImg;
+		*/
 	}
 	
 	/**
@@ -123,8 +134,9 @@ public class VisionProcessor extends Subsystem {
 	 * draws a bounding box around the largest particle found overlayed on the provided image
 	 * @param inputImg image containing the particle to see the bounding box in context
 	 * @param particles list of particles found in the image
+	 * @return the inputImg with the largest particles bounding box overlayed
 	 */
-	public void drawParticleBox(Image inputImg, ArrayList<Particle> particles) {
+	public Image drawParticleBox(Image inputImg, ArrayList<Particle> particles) {
 		Image boundedImg = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
 		
 		particles.sort(null);
@@ -134,7 +146,7 @@ public class VisionProcessor extends Subsystem {
 		NIVision.imaqDrawShapeOnImage(boundedImg, inputImg, rect, 
 										DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 0.0f);		
 
-		CameraServer.getInstance().setImage(boundedImg);
+		return boundedImg;
 	}  
     
     

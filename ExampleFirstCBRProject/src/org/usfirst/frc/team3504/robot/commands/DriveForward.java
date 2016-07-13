@@ -6,14 +6,14 @@ import org.usfirst.frc.team3504.robot.Robot;
 public class DriveForward extends Command {
 
     public DriveForward() {
-    	requires(Robot.DRIVEMOTOR);
+    	requires(Robot.driveMotor);
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	Robot.DRIVEMOTOR.forward();
+    	Robot.driveMotor.forward();
     }
 
     protected boolean isFinished() {
@@ -21,7 +21,7 @@ public class DriveForward extends Command {
     }
 
     protected void end() {
-    	Robot.DRIVEMOTOR.stop();
+    	Robot.driveMotor.stop();
     }
 
     protected void interrupted() {

@@ -1,22 +1,19 @@
 package org.usfirst.frc.team3504.robot.commands;
 
-import org.usfirst.frc.team3504.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3504.robot.Robot;
 
-public class DriveBackward extends Command {
+public class DriveForward extends Command {
 
-    public DriveBackward() {
-    	requires(Robot.driveMotor);
+    public DriveForward() {
+    	requires(Robot.driveTrain);
     }
-
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	Robot.driveMotor.backward();
+    	Robot.driveTrain.forward();
     }
 
     protected boolean isFinished() {
@@ -24,7 +21,7 @@ public class DriveBackward extends Command {
     }
 
     protected void end() {
-    	Robot.driveMotor.stop();
+    	Robot.driveTrain.stop();
     }
 
     protected void interrupted() {

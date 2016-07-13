@@ -8,15 +8,14 @@ import org.usfirst.frc.team3504.robot.Robot;
 public class DriveBackward extends Command {
 
     public DriveBackward() {
-    	requires(Robot.driveMotor);
+    	requires(Robot.driveTrain);
     }
-
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	Robot.driveMotor.backward();
+    	Robot.driveTrain.backward();
     }
 
     protected boolean isFinished() {
@@ -24,7 +23,7 @@ public class DriveBackward extends Command {
     }
 
     protected void end() {
-    	Robot.driveMotor.stop();
+    	Robot.driveTrain.stop();
     }
 
     protected void interrupted() {
