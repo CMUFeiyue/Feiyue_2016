@@ -2,6 +2,7 @@ package org.usfirst.frc.team3504.robot;
 
 
 import java.io.IOException;
+import java.util.StringTokenizer;
 import java.util.logging.*;
 
 import org.usfirst.frc.team3504.robot.subsystems.*;
@@ -30,8 +31,19 @@ public class Robot extends IterativeRobot {
     	oi = new OI();
 		chassis = new Chassis();
 		
+		System.out.println("Paths");
+		String property = System.getProperty("java.library.path");
+		StringTokenizer parser = new StringTokenizer(property, ";");
+		while(parser.hasMoreTokens()) {
+			System.out.println(parser.nextToken());
+		}
+		System.out.println("end paths");
+
+		
 		//System.load("/usr/local/lib/lib_OpenCV/java/libopencv_java2410.so");
 		//System.load("/usr/local/lib/lib_OpenCV/java/opencv-2410.jar");
+		System.load("/usr/local/frc/rpath-lib/opencv-2413.jar");
+		//System.loadLibrary("opencv_java2413");
 		try {
 			camera = new Camera();
 		} catch (InterruptedException e1) {

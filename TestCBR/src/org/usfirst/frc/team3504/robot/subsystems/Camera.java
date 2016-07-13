@@ -1,7 +1,8 @@
 package org.usfirst.frc.team3504.robot.subsystems;
 
-import org.opencv.core.*;
-import org.opencv.videoio.VideoCapture;
+
+import org.opencv.core.Mat;
+import org.opencv.highgui.VideoCapture;
 import org.usfirst.frc.team3504.robot.Robot;
 import org.usfirst.frc.team3504.robot.commands.UpdateCam;
 
