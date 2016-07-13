@@ -21,31 +21,31 @@ public class Camera extends Subsystem {
 //	private NetworkTable table;
 	private Image frame;
 	private int cam;
-	public final static Logger log = Logger.getLogger(Camera.class.getName());
+	
 	
 	private static final int INVALID_CAMERA = -1;
 	
 	public Camera() {
-		log.setLevel(Level.ALL);
-		log.info("Camera init");
-		
 		try {
-			cam = NIVision.IMAQdxOpenCamera("cam0", 
+			camClaw = NIVision.IMAQdxOpenCamera("cam0", 
 					NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		} catch (Exception ex) {
-			log.severe("Camera() failed to open the camera (cam0)!");
+			System.out.println("Camera() failed to open the claw camera (cam0)!!");
 			cam = INVALID_CAMERA;
 		}
-		
-		if (cam != INVALID_CAMERA) {
-			NIVision.IMAQdxConfigureGrab(cam);				
-			NIVision.IMAQdxStartAcquisition(cam);
+		try {
+			camFlap = NIVision.IMAQdxOpenCamera("cam", 
+					NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		}
-		
-		log.info("Camera started");
+				
+		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		
 		server = CameraServer.getInstance();
 		server.setQuality(50);
+		
+		switchToCamera(curCam);
+		// Don't call startAutomaticCapture() here because we're using setImage() instead
+	}
 	}
 	
 	public Image getImage() {
