@@ -27,10 +27,10 @@ public class Camera extends Subsystem {
 	
 	public Camera() {
 		try {
-			camClaw = NIVision.IMAQdxOpenCamera("cam0", 
+			cam = NIVision.IMAQdxOpenCamera("cam", 
 					NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		} catch (Exception ex) {
-			System.out.println("Camera() failed to open the claw camera (cam0)!!");
+			System.out.println("Camera() failed to open the claw camera (cam)!!");
 			cam = INVALID_CAMERA;
 		}
 		try {
