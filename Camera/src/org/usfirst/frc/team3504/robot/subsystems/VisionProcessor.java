@@ -24,13 +24,10 @@ public class VisionProcessor extends Subsystem {
 
 	//count of targets to ensure unique target ids
 	static int targetCount = 0;
-	ArrayList<Target> targets = new ArrayList<Target>();
 	public final static Logger log = Logger.getLogger(VisionProcessor.class.getName());
 	
 	public VisionProcessor() {	
 		CameraType camType = CameraType.AXIS_M10011;
-		Target test = new Target("Tote", 0.5, 75.0, 100, 255, 0, 80, 0, 80);
-		targets.add(test);
 	}
 	
 	public void calibrateTargets() {
@@ -43,6 +40,7 @@ public class VisionProcessor extends Subsystem {
     
     public Image findTote(Image inputImg) {
     	log.info("Running vision pipeline");
+		Target test = new Target("Tote", 0.5, 75.0, 100, 255, 0, 80, 0, 80);
     	Image outputImg = findTarget(inputImg, test);
     	log.info("Found tote");
     	return outputImg;
