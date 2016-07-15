@@ -2,6 +2,7 @@
 package org.usfirst.frc.team3504.robot;
 
 import org.usfirst.frc.team3504.robot.subsystems.Camera;
+import org.usfirst.frc.team3504.robot.subsystems.Chassis;
 import org.usfirst.frc.team3504.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team3504.robot.subsystems.VisionProcessor;
 
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static OI oi;
+	public static Chassis chassis;
 	public static DriveTrain driveTrain = new DriveTrain();
 	public static Camera camera;
 	public static VisionProcessor vision; 
@@ -24,6 +26,7 @@ public class Robot extends IterativeRobot {
 
     public void robotInit() {
 		oi = new OI();
+		chassis = new Chassis();
         chooser = new SendableChooser();
         camera = new Camera();
         vision = new VisionProcessor();

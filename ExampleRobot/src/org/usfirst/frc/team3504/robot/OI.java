@@ -7,7 +7,7 @@ import org.usfirst.frc.team3504.robot.commands.DriveStop;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-
+//TODO: write in ya damn getDrivingStick y/x biznazz so this works. CHeck DBJS afterwards. Pray to Jesus.
 public class OI {
 	Joystick joystickName = new Joystick(RobotMap.JOYSTICK_PORT);
 	
