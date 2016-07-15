@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.logging.Logger;
 
+import org.usfirst.frc.team3504.robot.subsystems.VisionProcessor.Particle;
+
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.DrawMode;
 import com.ni.vision.NIVision.Image;
@@ -38,14 +40,14 @@ public class VisionProcessor extends Subsystem {
         // Set the default command for a subsystem here.
     }
     
-    public Image findTote(Image inputImg) {
+    public Image findTest(Image inputImg) {
     	log.info("Running vision pipeline");
 		Target test = new Target("Tote", 0.5, 75.0, 100, 255, 0, 80, 0, 80);
     	Image outputImg = findTarget(inputImg, test);
     	log.info("Found tote");
     	return outputImg;
     }
-	
+  	
 	/**
 	 * Combines all the helper functions to find a specified target in an image
 	 * TODO: explain this better
@@ -53,13 +55,22 @@ public class VisionProcessor extends Subsystem {
 	 * @param target the target to be found in the image
 	 */
 	public Image findTarget(Image inputImg, Target target) {
-		Image thresholdedImage = thresholdImage(inputImg, target);
-		return thresholdedImage;
-		/*
-		ArrayList<Particle> particles = identifyParticles(thresholdedImage, target);
+		Image scaledImg = resizeImage(inputImg, 2, 2);
+		Image thresholdedImg = thresholdImage(scaledImg, target);
+		ArrayList<Particle> particles = identifyParticles(thresholdedImg, target);
+		log.info("num particles: " + particles.size());
 		Image boxImg = drawParticleBox(inputImg, particles);
 		return boxImg;
-		*/
+	}
+	  
+	public Image resizeImage(Image inputImg, int xscale, int yscale) {
+		Image scaledImg = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
+		
+		NIVision.GetImageSizeResult inputImgSize = NIVision.imaqGetImageSize(inputImg);
+		NIVision.Rect imageRect = new NIVision.Rect(0, 0, inputImgSize.height, inputImgSize.width);
+	
+		NIVision.imaqScale(scaledImg, inputImg, xscale, yscale, NIVision.ScalingMode.SCALE_SMALLER, imageRect);
+		return scaledImg;
 	}
 	
 	/**
@@ -214,8 +225,6 @@ public class VisionProcessor extends Subsystem {
 		int id;
 		String targetName;
 		double minPercentArea;
-		double longRatio;
-		double shortRation;
 		double minScore;
 		NIVision.Range hueRange, satRange, valRange;
 		

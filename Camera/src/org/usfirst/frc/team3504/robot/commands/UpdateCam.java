@@ -24,12 +24,14 @@ public class UpdateCam extends Command {
     }
 
     protected void execute() {
-    	log.info("Grabbing image");
+     	log.info("Grabbing image");
     	Image img = Robot.camera.getImage();
     	
     	if(img != null) {
     		log.info("Processing image");
-    		Image toDisplay = Robot.vision.findTote(img);
+    //		Image toDisplay = Robot.vision.resizeImage(img, 2, 2);
+    	//	Image toDisplay = img;
+    		Image toDisplay = Robot.vision.findTest(img);
     		CameraServer.getInstance().setImage(toDisplay);
     	}
     	else {

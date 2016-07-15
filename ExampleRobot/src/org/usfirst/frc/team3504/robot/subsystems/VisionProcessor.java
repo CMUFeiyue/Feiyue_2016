@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * TODO: make sure all the documentation is up to date
  * TODO: add logger statements, and consider printing things to the Network Tables
- * TODO: figure out downsizing the image cause this will all probably take forever
  * TODO: test with an actual target and see what happens #yolo
  */
 public class VisionProcessor extends Subsystem {
@@ -30,8 +29,13 @@ public class VisionProcessor extends Subsystem {
 	
 	public VisionProcessor() {	
 		CameraType camType = CameraType.AXIS_M10011;
-		//targets.add(testTarget);
 		log.setLevel(Level.WARNING);
+
+		Target redBox = new Target("Red Box", 0.5, 75.0, 100, 255, 0, 80, 0, 80);
+		Target yellowCard = new Target("Yellow Card", 0.5, 75.0, 0, 100, 0, 80, 0, 80);
+    	targets.add(redBox);
+    	targets.add(yellowCard);
+		
 	}
 	
 	public void calibrateTargets() {
@@ -44,8 +48,8 @@ public class VisionProcessor extends Subsystem {
     
     public Image findTest(Image inputImg) {
     	log.info("Running vision pipeline");
-    	Target testTarget = new Target("Tote", 0.5, 75.0, 100, 255, 0, 80, 0, 80);
-    	Image outputImg = findTarget(inputImg, testTarget);
+    	
+    	Image outputImg = findTarget(inputImg, targets.get(1));
     	return outputImg;
     }
 	
@@ -60,7 +64,6 @@ public class VisionProcessor extends Subsystem {
 		Image thresholdedImg = thresholdImage(scaledImg, target);
 		ArrayList<Particle> particles = identifyParticles(thresholdedImg, target);
 		log.info("num particles: " + particles.size());
-		//return thresholdedImg;
 		Image boxImg = drawParticleBox(inputImg, particles);
 		return boxImg;
 	}
@@ -238,8 +241,6 @@ public class VisionProcessor extends Subsystem {
 		int id;
 		String targetName;
 		double minPercentArea;
-		double longRatio;
-		double shortRation;
 		double minScore;
 		NIVision.Range hueRange, satRange, valRange;
 		

@@ -11,5 +11,5 @@ public class RobotMap {
 	
 	public static final int JOYSTICK_PORT = 0;
 	
-	public static final String CAMERA_NAME = "cam0";
+	public static final String[] CAMERA_NAMES = {"cam0"};
 }

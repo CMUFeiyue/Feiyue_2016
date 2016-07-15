@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3504.robot.subsystems;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,28 +19,29 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Camera extends Subsystem {
     
 	private CameraServer server;
-//	private NetworkTable table;
 	private Image frame;
 	private int cam;
 	public final static Logger log = Logger.getLogger(Camera.class.getName());
 	
-	private static final int INVALID_CAMERA = -1;
+	private static ArrayList<Integer> openCams = new ArrayList<Integer>();
 	
 	public Camera() {
 		log.setLevel(Level.ALL);
 		log.info("Camera init");
 		
-		try {
-			cam = NIVision.IMAQdxOpenCamera(RobotMap.CAMERA_NAME, 
-					NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-		} catch (Exception ex) {
-			log.severe("Camera() failed to open the camera (" + RobotMap.CAMERA_NAME + ")!");
-			cam = INVALID_CAMERA;
+		for(String camName : RobotMap.CAMERA_NAMES) {
+			try {
+				cam = NIVision.IMAQdxOpenCamera(camName, 
+						NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+				openCams.add(cam);
+			} catch (Exception ex) {
+				log.severe("Camera() failed to open the camera (" + camName + ")!");
+			}
 		}
-		
+	
 		log.info("cam: " + cam);
 		
-		if (cam != INVALID_CAMERA) {
+		for(int cam : openCams) {
 			NIVision.IMAQdxConfigureGrab(cam);				
 			NIVision.IMAQdxStartAcquisition(cam);
 		}
@@ -55,13 +57,14 @@ public class Camera extends Subsystem {
 		log.info("Done camera init");
 	}
 	
-	public Image getImage() {
-		if (cam != INVALID_CAMERA) {
+	public ArrayList<Image> getImages() {
+		ArrayList<Image> images = new ArrayList<Image>();
+		for(int cam : openCams) {
 			NIVision.IMAQdxGrab(cam, frame, 1);
 		//	server.setImage(frame);
-			return frame;
+			images.add(frame);
 		}
-		return null;
+		return images;
 	}
 
     public void initDefaultCommand() {
