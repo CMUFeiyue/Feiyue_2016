@@ -3,9 +3,9 @@ package org.usfirst.frc.team3504.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3504.robot.Robot;
 
-public class DriveForward extends Command {
+public class DriveStop extends Command {
 
-    public DriveForward() {
+    public DriveStop() {
     	requires(Robot.driveTrain);
     }
 
@@ -13,12 +13,12 @@ public class DriveForward extends Command {
     }
 
     protected void execute() {
-    	System.out.println("going forward");
-    	Robot.driveTrain.forward();
+    	System.out.println("stopping");
+    	//Robot.driveTrain.stop();
     }
 
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     protected void end() {

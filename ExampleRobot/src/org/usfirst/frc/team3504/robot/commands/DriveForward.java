@@ -13,7 +13,6 @@ public class DriveForward extends Command {
     }
 
     protected void execute() {
-    	System.out.println("going forward");
     	Robot.driveTrain.forward();
     }
 

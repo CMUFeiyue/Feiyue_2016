@@ -15,11 +15,12 @@ public class DriveBackward extends Command {
     }
 
     protected void execute() {
+    	System.out.println("going backward");
     	Robot.driveTrain.backward();
     }
 
     protected boolean isFinished() {
-        return false;
+    	return false;
     }
 
     protected void end() {

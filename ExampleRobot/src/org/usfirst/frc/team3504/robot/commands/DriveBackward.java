@@ -1,11 +1,13 @@
 package org.usfirst.frc.team3504.robot.commands;
 
+import org.usfirst.frc.team3504.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team3504.robot.Robot;
 
-public class DriveForward extends Command {
+public class DriveBackward extends Command {
 
-    public DriveForward() {
+    public DriveBackward() {
     	requires(Robot.driveTrain);
     }
 
@@ -13,12 +15,11 @@ public class DriveForward extends Command {
     }
 
     protected void execute() {
-    	System.out.println("going forward");
-    	Robot.driveTrain.forward();
+    	Robot.driveTrain.backward();
     }
 
     protected boolean isFinished() {
-        return false;
+    	return false;
     }
 
     protected void end() {
