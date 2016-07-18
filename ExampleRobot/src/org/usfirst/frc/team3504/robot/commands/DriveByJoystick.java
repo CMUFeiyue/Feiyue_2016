@@ -32,6 +32,8 @@ public class DriveByJoystick extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.chassis.stop();
+    	SmartDashboard.putBoolean("Drive by Joystick", false);
     }
 
     // Called when another command which requires one or more of the same
