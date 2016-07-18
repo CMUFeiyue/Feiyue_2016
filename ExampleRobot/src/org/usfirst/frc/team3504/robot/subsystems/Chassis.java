@@ -3,7 +3,6 @@ package org.usfirst.frc.team3504.robot.subsystems;
 import org.usfirst.frc.team3504.robot.Robot;
 import org.usfirst.frc.team3504.robot.RobotMap;
 import org.usfirst.frc.team3504.robot.commands.DriveByJoystick;
-import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -26,11 +25,6 @@ public class Chassis extends Subsystem {
     private double encOffsetValueRight = 0;
     private double encOffsetValueLeft = 0;
     
-    try {
-		/* Communicate w/navX MXP via the MXP SPI Bus.                                     */
-		/* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
-		/* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
-		ahrs = new AHRS(SPI.Port.kMXP);
 	}
     
     public void initDefaultCommand() {
