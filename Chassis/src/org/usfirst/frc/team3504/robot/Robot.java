@@ -1,5 +1,5 @@
 
-package org.usfirst.frc.team3504.robot.commands;
+package org.usfirst.frc.team3504.robot;
 
 import org.usfirst.frc.team3504.robot.subsystems.Chassis;
 
@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static OI oi;
-	public static Chassis chassis; 
-
+	public static Chassis chassis;
+	
     Command autonomousCommand;
     SendableChooser chooser;
 
@@ -22,7 +22,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		chassis = new Chassis();
         chooser = new SendableChooser();
-        
+            
         SmartDashboard.putData("Auto mode", chooser);
     }
 	

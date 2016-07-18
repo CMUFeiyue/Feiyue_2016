@@ -3,12 +3,9 @@ package org.usfirst.frc.team3504.robot.subsystems;
 import org.usfirst.frc.team3504.robot.Robot;
 import org.usfirst.frc.team3504.robot.RobotMap;
 import org.usfirst.frc.team3504.robot.commands.DriveByJoystick;
-import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,9 +20,7 @@ public class Chassis extends Subsystem {
     
     private double encOffsetValueRight = 0;
     private double encOffsetValueLeft = 0;
-    
-    private AHRS ahrs;
-    
+       
     public Chassis() {
     	masterLeft = new CANTalon(RobotMap.MASTER_LEFT);
 		slaveLeft = new CANTalon(RobotMap.SLAVE_LEFT);
@@ -55,20 +50,10 @@ public class Chassis extends Subsystem {
 		robotDrive.setSensitivity(0.5);
 		robotDrive.setMaxOutput(1.0);
 		
-		
-    	
-    	 try {
-			/* Communicate w/navX MXP via the MXP SPI Bus.                                     */
-			/* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
-			/* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
-			ahrs = new AHRS(SPI.Port.kMXP);
-    	 } catch (RuntimeException ex ) {
-    		DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
-    	 }
     }
     
     public void initDefaultCommand() {
-    	//setDefaultCommand(new DriveByJoystick());
+    	setDefaultCommand(new DriveByJoystick());
     }
     
     public void driveByJoystick(double yDir, double xDir){
@@ -89,18 +74,24 @@ public class Chassis extends Subsystem {
 	}
 
 	public double getEncoderDistance() {
+		double distPerPulse;
+		if (Robot.shifters.inHighGear()) {
+			distPerPulse = RobotMap.DIST_PER_PULSE_HIGH_GEAR;
+		} else {
+			distPerPulse = RobotMap.DIST_PER_PULSE_LOW_GEAR;
+		}
+		
 		double numPulseLeft = getEncoderRight() - encOffsetValueLeft;
 		double numPulseRight = getEncoderRight() - encOffsetValueRight;
 			
-		SmartDashboard.putNumber("Chassis Distance Right", (numPulseRight * RobotMap.DIST_PER_PULSE));
-		SmartDashboard.putNumber("Chassis Distance Left", (numPulseLeft * RobotMap.DIST_PER_PULSE));
-		return (numPulseRight) * RobotMap.DIST_PER_PULSE;
+		SmartDashboard.putNumber("Chassis Encoders Right", (numPulseRight * distPerPulse));
+		SmartDashboard.putNumber("Chassis Encoders Left", (numPulseLeft * distPerPulse));
+		return (numPulseRight) * RobotMap.DIST_PER_PULSE_HIGH_GEAR;
 	}
 
 	public void resetEncoderDistance() {
 		encOffsetValueRight = getEncoderRight();
 		encOffsetValueLeft = getEncoderLeft();
-		ahrs.resetDisplacement();
 		getEncoderDistance();
 	}
     public void stop() {

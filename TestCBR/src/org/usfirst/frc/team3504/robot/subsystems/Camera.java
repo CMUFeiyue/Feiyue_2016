@@ -1,5 +1,8 @@
 package org.usfirst.frc.team3504.robot.subsystems;
 
+import org.opencv.core.Mat;
+import org.opencv.highgui.Highgui;
+import org.opencv.highgui.VideoCapture;
 import org.usfirst.frc.team3504.robot.Robot;
 import org.usfirst.frc.team3504.robot.commands.UpdateCam;
 
@@ -22,7 +25,7 @@ public class Camera extends Subsystem {
 	public Camera() throws InterruptedException {
 		log.setLevel(Level.ALL);
 		log.info("Camera init");
-		/*
+		
 		Thread.sleep(1000);
 		
 		VideoCapture cam = new VideoCapture(0);
@@ -41,13 +44,14 @@ public class Camera extends Subsystem {
 		cam.read(frame);
 		log.info("Read frame");
 		
-	//	Highgui.imwrite("//home//lvuser//Vision//camera.jpg", frame);
+		Highgui.imwrite("//home//lvuser//Vision//camera.jpg", frame);
 		log.info("Done");
-		*/
 		
+		/*
 		table = NetworkTable.getTable("GRIP");
 		for(String key : table.getKeys()) 
 			System.out.println(key);
+			*/
 	}
 	
 	/* Grab a new image from the current camera, putting it into the frame.
@@ -81,6 +85,6 @@ public class Camera extends Subsystem {
 	}
 	
     public void initDefaultCommand() {
-        setDefaultCommand(new UpdateCam());
+     //   setDefaultCommand(new UpdateCam());
     }
 }

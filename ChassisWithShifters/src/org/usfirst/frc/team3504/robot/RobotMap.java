@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3504.robot.commands;
+package org.usfirst.frc.team3504.robot;
 
 public class RobotMap {
 
@@ -10,6 +10,11 @@ public class RobotMap {
 	public static final int SLAVE_RIGHT= 3;
 	
 	public static final int JOYSTICK_PORT = 0;
+	
+	public static final int SHIFTER_LEFT_A = 0;
+	public static final int SHIFTER_LEFT_B = 1;
+	public static final int SHIFTER_RIGHT_A = 2;
+	public static final int SHIFTER_RIGHT_B = 3;
 	
 
 	// Encoder-to-distance constants

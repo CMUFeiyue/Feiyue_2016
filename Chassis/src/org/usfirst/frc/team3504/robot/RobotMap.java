@@ -6,8 +6,8 @@ public class RobotMap {
 	public static final int MASTER_LEFT = 1;
 	public static final int SLAVE_LEFT = 2;
 	
-	public static final int MASTER_RIGHT= 11;
-	public static final int SLAVE_RIGHT= 12;
+	public static final int MASTER_RIGHT = 11;
+	public static final int SLAVE_RIGHT = 12;
 	
 	public static final int JOYSTICK_PORT = 0;
 	

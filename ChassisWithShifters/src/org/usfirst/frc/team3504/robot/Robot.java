@@ -1,9 +1,8 @@
 
 package org.usfirst.frc.team3504.robot;
 
-import org.usfirst.frc.team3504.robot.subsystems.Camera;
 import org.usfirst.frc.team3504.robot.subsystems.Chassis;
-import org.usfirst.frc.team3504.robot.subsystems.VisionProcessor;
+import org.usfirst.frc.team3504.robot.subsystems.Shifters;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -15,20 +14,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static OI oi;
-	public static Chassis chassis;
-	public static Camera camera;
-	public static VisionProcessor vision;
-	
+	public static Chassis chassis; 
+	public static Shifters shifters;
+
     Command autonomousCommand;
     SendableChooser chooser;
 
     public void robotInit() {
 		oi = new OI();
 		chassis = new Chassis();
-		camera = new Camera();
-	    vision = new VisionProcessor();
+		shifters = new Shifters();
         chooser = new SendableChooser();
-            
+        
         SmartDashboard.putData("Auto mode", chooser);
     }
 	
