@@ -8,7 +8,7 @@ import org.usfirst.frc.team3504.robot.Robot;
 public class DriveBackward extends Command {
 
     public DriveBackward() {
-    	requires(Robot.DRIVEMOTOR;
+    	requires(Robot.DRIVEMOTOR);
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
