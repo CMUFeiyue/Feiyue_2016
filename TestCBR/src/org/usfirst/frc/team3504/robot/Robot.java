@@ -29,20 +29,20 @@ public class Robot extends IterativeRobot {
     	log.info("robotInit");
     	
     	oi = new OI();
-		chassis = new Chassis();
+		//chassis = new Chassis();
 		
-		System.out.println("Paths");
-		String property = System.getProperty("java.library.path");
-		StringTokenizer parser = new StringTokenizer(property, ";");
-		while(parser.hasMoreTokens()) {
-			System.out.println(parser.nextToken());
-		}
-		System.out.println("end paths");
+//		System.out.println("Paths");
+//		String property = System.getProperty("java.library.path");
+//		StringTokenizer parser = new StringTokenizer(property, ";");
+//		while(parser.hasMoreTokens()) {
+//			System.out.println(parser.nextToken());
+//		}
+//		System.out.println("end paths");
 
 		
 		//System.load("/usr/local/lib/lib_OpenCV/java/libopencv_java2410.so");
 		//System.load("/usr/local/lib/lib_OpenCV/java/opencv-2410.jar");
-		System.load("/usr/local/frc/rpath-lib/opencv-2413.jar");
+//		System.load("/usr/local/frc/rpath-lib/opencv-2413.jar");
 		//System.loadLibrary("opencv_java2413");
 		try {
 			camera = new Camera();
@@ -56,14 +56,17 @@ public class Robot extends IterativeRobot {
     	chooser = new SendableChooser();
     	SmartDashboard.putData("Chooser", chooser);
     	
-    	try {
-    		new ProcessBuilder("/home/lvuser/grip").inheritIO().start();
-    	} catch(IOException e) {
-    		e.printStackTrace();
-    	}
+//    	try {
+//    		new ProcessBuilder("/home/lvuser/grip").inheritIO().start();
+//    	} catch(IOException e) {
+//    		e.printStackTrace();
+//    	}
+    	
+    	/*
 		USBCamera cam = new USBCamera("cam0");
 		cam.openCamera();
 		cam.startCapture();
+		*/
     }
 	
     public void disabledInit(){

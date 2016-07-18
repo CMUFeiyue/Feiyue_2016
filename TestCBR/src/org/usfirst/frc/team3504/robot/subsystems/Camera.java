@@ -1,8 +1,5 @@
 package org.usfirst.frc.team3504.robot.subsystems;
 
-
-import org.opencv.core.Mat;
-import org.opencv.highgui.VideoCapture;
 import org.usfirst.frc.team3504.robot.Robot;
 import org.usfirst.frc.team3504.robot.commands.UpdateCam;
 
@@ -16,7 +13,7 @@ public class Camera extends Subsystem {
 	//private CameraServer server;
 	private NetworkTable table;
 //	private Image frame;
-	private int cam;
+//	private int cam;
 	public final static Logger log = Logger.getLogger(Camera.class.getName());
 
 	
@@ -25,6 +22,7 @@ public class Camera extends Subsystem {
 	public Camera() throws InterruptedException {
 		log.setLevel(Level.ALL);
 		log.info("Camera init");
+		/*
 		Thread.sleep(1000);
 		
 		VideoCapture cam = new VideoCapture(0);
@@ -45,28 +43,8 @@ public class Camera extends Subsystem {
 		
 	//	Highgui.imwrite("//home//lvuser//Vision//camera.jpg", frame);
 		log.info("Done");
+		*/
 		
-		
-		
-	/*
-		try {
-			cam = NIVision.IMAQdxOpenCamera("cam0", 
-					NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-		} catch (Exception ex) {
-			//log.error("Camera() failed to open the camera (cam0)!!");
-			cam = INVALID_CAMERA;
-		}
-				
-		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-		
-//		server = CameraServer.getInstance();
-//		server.setQuality(50);
-		
-		if (cam != INVALID_CAMERA) {
-			NIVision.IMAQdxConfigureGrab(cam);
-			NIVision.IMAQdxStartAcquisition(cam);
-		}
-	*/
 		table = NetworkTable.getTable("GRIP");
 		for(String key : table.getKeys()) 
 			System.out.println(key);
