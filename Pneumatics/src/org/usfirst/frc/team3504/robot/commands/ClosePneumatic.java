@@ -8,7 +8,7 @@ public class ClosePneumatic extends Command {
     public ClosePneumatic() {
     	requires(Robot.solenoid);
     }
-s
+
     protected void initialize() {
     }
 

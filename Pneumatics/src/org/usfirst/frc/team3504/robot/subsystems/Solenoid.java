@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3504.robot.subsystems;
 
+import org.usfirst.frc.team3504.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -8,7 +10,8 @@ public class Solenoid extends Subsystem {
 	private static DoubleSolenoid doubleSolenoid;
 				
 	public Solenoid() {
-		doubleSolenoid = new DoubleSolenoid(2, 3);
+		doubleSolenoid = 
+				new DoubleSolenoid(RobotMap.SOLENOID_FWD_CHANNEL, RobotMap.SOLENOID_BWD_CHANNEL);
 	}
 	
 	public void initDefaultCommand() {
