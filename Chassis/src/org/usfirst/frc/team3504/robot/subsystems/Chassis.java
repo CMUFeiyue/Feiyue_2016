@@ -2,12 +2,9 @@ package org.usfirst.frc.team3504.robot.subsystems;
 
 import org.usfirst.frc.team3504.robot.RobotMap;
 import org.usfirst.frc.team3504.robot.commands.DriveByJoystick;
-import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,8 +19,6 @@ public class Chassis extends Subsystem {
     
     private double encOffsetValueRight = 0;
     private double encOffsetValueLeft = 0;
-    
-    private AHRS ahrs;
     
     public Chassis() {
     	masterLeft = new CANTalon(RobotMap.MASTER_LEFT);
