@@ -1,15 +1,6 @@
 package org.usfirst.frc.team3504.robot;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class RobotMap {
-
-	public final static Logger log = Logger.getLogger(RobotMap.class.getName());
-	
-	public RobotMap() {
-		log.setLevel(Level.ALL);
-	}
 	
 	public enum Camera {
 		//Enum: camera nickname, Value: roboRIO provided camera ID (or system name)
@@ -17,7 +8,11 @@ public class RobotMap {
 		MY_CAMERA("cam0");
 		
 		public static final int INVALID_CAM = -1;
+		
+		//roboRIO provided camera ID
 		protected final String systemName;
+		
+		//stream returned when camera gets opened. default is invalid (-1).
 		protected int streamDescriptor;
 		
     	Camera(String systemName) {	

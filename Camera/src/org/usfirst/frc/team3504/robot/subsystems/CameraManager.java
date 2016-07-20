@@ -22,18 +22,9 @@ public class CameraManager extends Subsystem {
 		log.setLevel(Level.ALL);
 		log.info("Camera init");
 		
-		int streamID;
 		for(RobotMap.Camera camera : RobotMap.Camera.values()) {
 			try {
-				streamID = NIVision.IMAQdxOpenCamera(camera.systemName(), 
-						NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-				camera.setStreamID(streamID);
-				log.info(camera.toString() + " opened");
-				
-				NIVision.IMAQdxConfigureGrab(streamID);				
-				NIVision.IMAQdxStartAcquisition(streamID);
-				log.info(camera.toString() + " configured");
-		
+				openCamera(camera);
 			} catch (Exception ex) {
 				log.severe("Failed to open the camera " + camera.toString());
 			}
@@ -45,6 +36,18 @@ public class CameraManager extends Subsystem {
 		server.setQuality(50);
 		log.info("Server configured");
 		log.info("Done camera init");
+	}
+	
+	public void openCamera(RobotMap.Camera camera) {
+		int streamID;
+		streamID = NIVision.IMAQdxOpenCamera(camera.systemName(), 
+				NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		camera.setStreamID(streamID);
+		log.info(camera.toString() + " opened");
+		
+		NIVision.IMAQdxConfigureGrab(streamID);				
+		NIVision.IMAQdxStartAcquisition(streamID);
+		log.info(camera.toString() + " configured");
 	}
 	
 	public Image getImage(RobotMap.Camera camName) {
