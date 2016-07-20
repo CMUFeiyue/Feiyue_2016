@@ -1,7 +1,7 @@
 
 package org.usfirst.frc.team3504.robot;
 
-import org.usfirst.frc.team3504.robot.subsystems.Camera;
+import org.usfirst.frc.team3504.robot.subsystems.CameraManager;
 import org.usfirst.frc.team3504.robot.subsystems.VisionProcessor;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static OI oi;
-	public static Camera camera;
+	public static CameraManager camera;
 	public static VisionProcessor vision; 
 
     Command autonomousCommand;
@@ -34,7 +34,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
         chooser = new SendableChooser();
-        camera = new Camera();
+        camera = new CameraManager();
         vision = new VisionProcessor();
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);

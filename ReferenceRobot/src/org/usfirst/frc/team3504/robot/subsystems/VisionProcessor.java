@@ -15,11 +15,6 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * TODO: make sure all the documentation is up to date
- * TODO: add logger statements, and consider printing things to the Network Tables
- * TODO: test with an actual target and see what happens #yolo
- */
 public class VisionProcessor extends Subsystem {
 
 	//count of targets to ensure unique target ids
@@ -29,24 +24,20 @@ public class VisionProcessor extends Subsystem {
 	
 	public VisionProcessor() {	
 		CameraType camType = CameraType.AXIS_M10011;
-		log.setLevel(Level.WARNING);
+		
+		log.setLevel(Level.ALL);
 
 		Target redBox = new Target("Red Box", 0.5, 75.0, 100, 255, 0, 80, 0, 80);
 		Target yellowCard = new Target("Yellow Card", 0.5, 75.0, 0, 100, 0, 80, 0, 80);
     	targets.add(redBox);
     	targets.add(yellowCard);
-		
-	}
-	
-	public void calibrateTargets() {
-		
 	}
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
     }
     
-    public Image findTest(Image inputImg) {
+    public Image findYellowCard(Image inputImg) {
     	log.info("Running vision pipeline");
     	
     	Image outputImg = findTarget(inputImg, targets.get(1));
@@ -68,6 +59,15 @@ public class VisionProcessor extends Subsystem {
 		return boxImg;
 	}
 	
+	/**
+	 * Scales the image down in both dimensions by the factor provided.
+	 * For example, resizeImage(inputImg, 2, 3) would result in an image 
+	 * that is half as wide and a third as high as the original.
+	 * @param inputImg the image to be resized
+	 * @param xscale the factor by which to shrink the x-dimension of the image
+	 * @param yscale the factor by which to shrink the y-dimension of the image
+	 * @return
+	 */
 	public Image resizeImage(Image inputImg, int xscale, int yscale) {
 		Image scaledImg = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
 		
@@ -107,7 +107,6 @@ public class VisionProcessor extends Subsystem {
 	public ArrayList<Particle> identifyParticles(Image inputImg, Target target) {
 		Image filteredImg = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
 		
-		//TODO: find out how the particle filter thing works and what these parameters are
 		NIVision.ParticleFilterCriteria2 filterCriteria[] = new NIVision.ParticleFilterCriteria2[1];
 		filterCriteria[0] = new NIVision.ParticleFilterCriteria2
 				(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, target.minPercentArea, 100.0, 0, 0);

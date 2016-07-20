@@ -2,9 +2,8 @@ package org.usfirst.frc.team3504.robot.subsystems;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.usfirst.frc.team3504.robot.subsystems.VisionProcessor.Particle;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.DrawMode;
@@ -12,42 +11,38 @@ import com.ni.vision.NIVision.Image;
 import com.ni.vision.NIVision.ImageType;
 import com.ni.vision.NIVision.ShapeMode;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * TODO: make sure all the documentation is up to date
- * TODO: add logger statements, and consider printing things to the Network Tables
- * TODO: figure out downsizing the image cause this will all probably take forever
- * TODO: test with an actual target and see what happens #yolo
- */
 public class VisionProcessor extends Subsystem {
 
 	//count of targets to ensure unique target ids
 	static int targetCount = 0;
+	ArrayList<Target> targets = new ArrayList<Target>();
 	public final static Logger log = Logger.getLogger(VisionProcessor.class.getName());
 	
 	public VisionProcessor() {	
 		CameraType camType = CameraType.AXIS_M10011;
-	}
-	
-	public void calibrateTargets() {
 		
+		log.setLevel(Level.ALL);
+
+		Target redBox = new Target("Red Box", 0.5, 75.0, 100, 255, 0, 80, 0, 80);
+		Target yellowCard = new Target("Yellow Card", 0.5, 75.0, 0, 100, 0, 80, 0, 80);
+    	targets.add(redBox);
+    	targets.add(yellowCard);
 	}
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
     }
     
-    public Image findTest(Image inputImg) {
+    public Image findYellowCard(Image inputImg) {
     	log.info("Running vision pipeline");
-		Target test = new Target("Tote", 0.5, 75.0, 100, 255, 0, 80, 0, 80);
-    	Image outputImg = findTarget(inputImg, test);
-    	log.info("Found tote");
+    	
+    	Image outputImg = findTarget(inputImg, targets.get(1));
     	return outputImg;
     }
-  	
+	
 	/**
 	 * Combines all the helper functions to find a specified target in an image
 	 * TODO: explain this better
@@ -62,7 +57,16 @@ public class VisionProcessor extends Subsystem {
 		Image boxImg = drawParticleBox(inputImg, particles);
 		return boxImg;
 	}
-	  
+	
+	/**
+	 * Scales the image down in both dimensions by the factor provided.
+	 * For example, resizeImage(inputImg, 2, 3) would result in an image 
+	 * that is half as wide and a third as high as the original.
+	 * @param inputImg the image to be resized
+	 * @param xscale the factor by which to shrink the x-dimension of the image
+	 * @param yscale the factor by which to shrink the y-dimension of the image
+	 * @return
+	 */
 	public Image resizeImage(Image inputImg, int xscale, int yscale) {
 		Image scaledImg = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
 		
@@ -102,7 +106,6 @@ public class VisionProcessor extends Subsystem {
 	public ArrayList<Particle> identifyParticles(Image inputImg, Target target) {
 		Image filteredImg = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
 		
-		//TODO: find out how the particle filter thing works and what these parameters are
 		NIVision.ParticleFilterCriteria2 filterCriteria[] = new NIVision.ParticleFilterCriteria2[1];
 		filterCriteria[0] = new NIVision.ParticleFilterCriteria2
 				(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, target.minPercentArea, 100.0, 0, 0);
@@ -129,8 +132,9 @@ public class VisionProcessor extends Subsystem {
 		
 		for(int particleIndex = 0; particleIndex < numParticles; particleIndex++){
 			for(int property = 0; property < imaqProperties.length; property++) {
-				parProperties[property] = NIVision.imaqMeasureParticle
-												(filteredImg, particleIndex, 0, imaqProperties[property]);
+				parProperties[property] = 
+						NIVision.imaqMeasureParticle
+							(filteredImg, particleIndex, 0, imaqProperties[property]);
 			}
 			Particle par = new Particle(parProperties);
 			particles.add(par);
@@ -146,16 +150,28 @@ public class VisionProcessor extends Subsystem {
 	 * @return the inputImg with the largest particles bounding box overlayed
 	 */
 	public Image drawParticleBox(Image inputImg, ArrayList<Particle> particles) {
-		Image boundedImg = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
-		
-		particles.sort(null);
-		Particle particle = particles.get(0);
-
-		NIVision.Rect rect = new NIVision.Rect(particle.y, particle.x, particle.height, particle.width);
-		NIVision.imaqDrawShapeOnImage(boundedImg, inputImg, rect, 
-										DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 0.0f);		
-
-		return boundedImg;
+		if(particles.size() != 0) {
+			Image boundedImg = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
+			
+			particles.sort(null);
+			Particle particle = particles.get(0);
+			
+			log.info("particle x: " + particle.x);
+			log.info("particle y: " + particle.y);
+			log.info("particle height: " + particle.height);
+			log.info("particle width: " + particle.width);
+	
+			NIVision.Rect rect = 
+					new NIVision.Rect(particle.y, particle.x, particle.height, particle.width);
+			NIVision.imaqDrawShapeOnImage(boundedImg, inputImg, rect, 
+											DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 0.0f);		
+	
+			return boundedImg;
+		}
+		else {
+			log.warning("no particles found");
+			return inputImg;
+		}
 	}  
     
     
