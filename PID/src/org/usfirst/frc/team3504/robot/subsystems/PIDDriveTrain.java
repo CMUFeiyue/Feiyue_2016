@@ -25,13 +25,15 @@ public class PIDDriveTrain extends PIDSubsystem {
 	}
 	
 	public PIDDriveTrain() {
-    	this("DriveTrain", 0, 0, 0, 0);
+    	this("DriveTrain", 0.1, 1, 0, 0);
     	
     	name = "DriveTrain";
-    	kP = 0;
-    	kI = 0;
+    	kP = 0.1;
+    	kI = 1;
     	kD = 0;
     	f = 0;
+    	
+    	printPIDValues();
     	
     	driveMaster = new CANTalon(RobotMap.DRIVE_MASTER);
 		driveSlave = new CANTalon(RobotMap.DRIVE_SLAVE);

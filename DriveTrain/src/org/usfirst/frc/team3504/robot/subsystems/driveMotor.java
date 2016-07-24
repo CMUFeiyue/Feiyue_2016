@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class driveMotor extends Subsystem {
+public class DriveMotor extends Subsystem {
     
 	private CANTalon driveMaster;
 	private CANTalon driveSlave;
 	
-	public driveMotor() {
+	public DriveMotor() {
 		driveMaster = new CANTalon(RobotMap.DRIVE_MASTER);
 		driveSlave = new CANTalon(RobotMap.DRIVE_SLAVE);
 		
