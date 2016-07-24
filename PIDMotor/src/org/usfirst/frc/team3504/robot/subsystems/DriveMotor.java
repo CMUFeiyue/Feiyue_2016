@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class DriveMotor extends Subsystem {
 
-	private static CANTalon motor;
+	private static CANTalon driveMaster, driveSlave;
 	NetworkTable table = NetworkTable.getTable("datatable");
 	
 	//PID constants
@@ -20,33 +20,37 @@ public class DriveMotor extends Subsystem {
 	public double closeLoopRampRate;
 	public int profile;
 	
-	public double SP;
+	public double speed;
 			
 	public DriveMotor()
 	{
-		motor = new CANTalon(RobotMap.MOTOR_PORT);
+		driveMaster = new CANTalon(RobotMap.DRIVE_MASTER);
+		driveSlave = new CANTalon(RobotMap.DRIVE_SLAVE);
 		
 		//initial values for PID
 		kP = 1;
-		kI = 0.1;
+		kI = 0;
 		kD = 20;
 		f = 1;
 		izone = 0;
 		closeLoopRampRate = 0;
 		profile = 0;
 				
-		SP = 0.1;
+		speed = 0.1;
 		
+		driveMaster.changeControlMode(CANTalon.TalonControlMode.Speed);
+		driveSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
+		driveSlave.set(driveMaster.getDeviceID());
 		setPID();
-		motor.changeControlMode(CANTalon.TalonControlMode.Speed);
 	}
 	
 	public void forward() {
- 	   	motor.set(SP);
+		System.out.println("speed" + speed);
+ 	   	driveMaster.set(speed);
 	}
 
 	public void stop() {
-		motor.set(0);
+		driveMaster.set(0);
 	}
 	
 	public void updatePIDValues() {
@@ -62,15 +66,15 @@ public class DriveMotor extends Subsystem {
 	}
 	
 	public void setPID() {
-		motor.setPID(kP, kI, kD, f, izone, closeLoopRampRate, profile);
+		driveMaster.setPID(kP, kI, kD, f, izone, closeLoopRampRate, profile);
 	}
 	
 	public int getEncoderPosition() {
-		return motor.getEncPosition();
+		return driveMaster.getEncPosition();
 	}
 	
 	public int getEncoderVelocity() {			
-		return motor.getEncVelocity();
+		return driveMaster.getEncVelocity();
 	}
 	
 	public double getPlotValue() {

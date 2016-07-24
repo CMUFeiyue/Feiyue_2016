@@ -17,16 +17,19 @@ public class TunePID extends Command {
     }
 
     protected void initialize() {
+    	System.out.println("tne init");
     	values = new ArrayList<Double>();
     	times = new ArrayList<Double>();
     	
-    	Robot.driveMotor.updatePIDValues();
+    	//Robot.driveMotor.updatePIDValues();
     	
-    	double timeout = table.getNumber("timeout", 0);
+    	//double timeout = table.getNumber("timeout", 0);
+    	double timeout = 5.0;
     	this.setTimeout(timeout);
     }
 
     protected void execute() {
+    	System.out.println("running");
     	Robot.driveMotor.forward();
     	
     	double value = Robot.driveMotor.getPlotValue();
@@ -37,7 +40,16 @@ public class TunePID extends Command {
     }
 
     protected boolean isFinished() {
-        return isTimedOut();
+    	return false;
+    /*
+    	if(isTimedOut()) {
+    		System.out.println("done");
+    		return true;
+    	}
+    	else
+    		return false;
+    		*/
+        //return isTimedOut();
     }
 
     protected void end() {

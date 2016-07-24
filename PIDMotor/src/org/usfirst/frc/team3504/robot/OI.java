@@ -2,7 +2,7 @@ package org.usfirst.frc.team3504.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import org.usfirst.frc.team3504.robot.commands.DriveForward;
+import org.usfirst.frc.team3504.robot.commands.TunePID;
 
 public class OI {
 	
@@ -11,7 +11,7 @@ public class OI {
 	
 	public OI () 
 	{
-		button1.whileHeld(new DriveForward()); 
+		button1.whenPressed(new TunePID()); 
 	}
 }
 
