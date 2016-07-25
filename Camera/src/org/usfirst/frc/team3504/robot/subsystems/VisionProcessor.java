@@ -36,7 +36,7 @@ public class VisionProcessor extends Subsystem {
         // Set the default command for a subsystem here.
     }
     
-    public Image findYellowCard(Image inputImg) {
+    public Image findTest(Image inputImg) {
     	log.info("Running vision pipeline");
     	
     	Image outputImg = findTarget(inputImg, targets.get(1));

@@ -7,13 +7,10 @@ import org.usfirst.frc.team3504.robot.commands.DriveUntilLimitSwitchIsPressed;
 public class OI {
 	
 	Joystick Joy = new Joystick(RobotMap.JOYSTICK_PORT); 
-	Button button3 = new JoystickButton(Joy, 3); //drive forward after button release until limit bumped 
-//	Button button4 = new JoystickButton(Joy, 4); //after button, drive forward while limit held down
+	Button button1 = new JoystickButton(Joy, 1); //drive forward after button release until limit bumped 
 	
-	public OI () 
-	{
-		button3.whenReleased(new DriveUntilLimitSwitchIsPressed());
-	//	button4.whenReleased(new DriveWhileLimitSwitchIsPressed());
+	public OI () {
+		button1.whenPressed(new DriveUntilLimitSwitchIsPressed());
 	}
 }
 

@@ -4,6 +4,7 @@ import org.usfirst.frc.team3504.robot.RobotMap;
 import org.usfirst.frc.team3504.robot.commands.DriveByJoystick;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,12 +21,14 @@ public class Chassis extends Subsystem {
     private double encOffsetValueRight = 0;
     private double encOffsetValueLeft = 0;
     
+	private DigitalInput limitSwitch;
+    
     public Chassis() {
     	masterLeft = new CANTalon(RobotMap.MASTER_LEFT);
 		slaveLeft = new CANTalon(RobotMap.SLAVE_LEFT);
 		
 		masterRight = new CANTalon(RobotMap.MASTER_RIGHT);
-		slaveRight = new CANTalon(RobotMap.MASTER_LEFT);
+		slaveRight = new CANTalon(RobotMap.SLAVE_RIGHT);
 		
 		
 		masterLeft.enableBrakeMode(true);
@@ -49,6 +52,7 @@ public class Chassis extends Subsystem {
 		robotDrive.setSensitivity(0.5);
 		robotDrive.setMaxOutput(1.0);
 		
+		limitSwitch = new DigitalInput(RobotMap.LIMITSWITCH_PORT);
     }
     
     public void initDefaultCommand() {
@@ -57,7 +61,7 @@ public class Chassis extends Subsystem {
     
     public void driveByJoystick(double yDir, double xDir){
     	SmartDashboard.putString("driveByJoystick?", yDir + "," + xDir);
-    	robotDrive.arcadeDrive(yDir,xDir);
+    	robotDrive.arcadeDrive(yDir, xDir);
     }
     
     public void printEncoderValues() {
@@ -65,19 +69,25 @@ public class Chassis extends Subsystem {
 	}
 
 	public double getEncoderRight() {
+		System.out.println("getting encoder right");
 		return -masterRight.getEncPosition();
 	}
 
 	public double getEncoderLeft() {
+		System.out.println("getting encoder left");
 		return masterLeft.getEncPosition();
 	}
 
 	public double getEncoderDistance() {
+		
+		System.out.println("getting distance");
+		
 		double numPulseLeft = getEncoderRight() - encOffsetValueLeft;
 		double numPulseRight = getEncoderRight() - encOffsetValueRight;
 			
 		SmartDashboard.putNumber("Chassis Distance Right", (numPulseRight * RobotMap.DIST_PER_PULSE));
 		SmartDashboard.putNumber("Chassis Distance Left", (numPulseLeft * RobotMap.DIST_PER_PULSE));
+		
 		return (numPulseRight) * RobotMap.DIST_PER_PULSE;
 	}
 
@@ -86,6 +96,11 @@ public class Chassis extends Subsystem {
 		encOffsetValueLeft = getEncoderLeft();
 		getEncoderDistance();
 	}
+	
+	public boolean isBumped() {
+		return !limitSwitch.get();
+    }
+    
     public void stop() {
 		robotDrive.drive(0, 0);
 	}

@@ -11,7 +11,6 @@ import com.ni.vision.NIVision.Image;
 import com.ni.vision.NIVision.ImageType;
 import com.ni.vision.NIVision.ShapeMode;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -37,7 +36,7 @@ public class VisionProcessor extends Subsystem {
         // Set the default command for a subsystem here.
     }
     
-    public Image findYellowCard(Image inputImg) {
+    public Image findTest(Image inputImg) {
     	log.info("Running vision pipeline");
     	
     	Image outputImg = findTarget(inputImg, targets.get(1));
@@ -133,8 +132,9 @@ public class VisionProcessor extends Subsystem {
 		
 		for(int particleIndex = 0; particleIndex < numParticles; particleIndex++){
 			for(int property = 0; property < imaqProperties.length; property++) {
-				parProperties[property] = NIVision.imaqMeasureParticle
-												(filteredImg, particleIndex, 0, imaqProperties[property]);
+				parProperties[property] = 
+						NIVision.imaqMeasureParticle
+							(filteredImg, particleIndex, 0, imaqProperties[property]);
 			}
 			Particle par = new Particle(parProperties);
 			particles.add(par);
@@ -161,7 +161,8 @@ public class VisionProcessor extends Subsystem {
 			log.info("particle height: " + particle.height);
 			log.info("particle width: " + particle.width);
 	
-			NIVision.Rect rect = new NIVision.Rect(particle.y, particle.x, particle.height, particle.width);
+			NIVision.Rect rect = 
+					new NIVision.Rect(particle.y, particle.x, particle.height, particle.width);
 			NIVision.imaqDrawShapeOnImage(boundedImg, inputImg, rect, 
 											DrawMode.DRAW_VALUE, ShapeMode.SHAPE_RECT, 0.0f);		
 	
