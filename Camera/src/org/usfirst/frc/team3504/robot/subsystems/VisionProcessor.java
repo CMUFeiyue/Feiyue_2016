@@ -2,6 +2,7 @@ package org.usfirst.frc.team3504.robot.subsystems;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +19,7 @@ public class VisionProcessor extends Subsystem {
 
 	//count of targets to ensure unique target ids
 	static int targetCount = 0;
-	ArrayList<Target> targets = new ArrayList<Target>();
+	HashMap<String, Target> targets = new HashMap<String, Target>();
 	public final static Logger log = Logger.getLogger(VisionProcessor.class.getName());
 	
 	public VisionProcessor() {	
@@ -28,8 +29,11 @@ public class VisionProcessor extends Subsystem {
 
 		Target redBox = new Target("Red Box", 0.5, 75.0, 100, 255, 0, 80, 0, 80);
 		Target yellowCard = new Target("Yellow Card", 0.5, 75.0, 0, 100, 0, 80, 0, 80);
-    	targets.add(redBox);
-    	targets.add(yellowCard);
+		
+		Target goal = new Target("Goal", 0.05, 0.5, 0, 180, 0, 255, 250, 255);
+    	targets.put(redBox.targetName, redBox);
+    	targets.put(redBox.targetName, yellowCard);
+    	targets.put(goal.targetName, goal);
 	}
 
     public void initDefaultCommand() {
@@ -39,7 +43,7 @@ public class VisionProcessor extends Subsystem {
     public Image findTest(Image inputImg) {
     	log.info("Running vision pipeline");
     	
-    	Image outputImg = findTarget(inputImg, targets.get(1));
+    	Image outputImg = findTarget(inputImg, targets.get("Goal"));
     	return outputImg;
     }
 	
@@ -54,8 +58,9 @@ public class VisionProcessor extends Subsystem {
 		Image thresholdedImg = thresholdImage(scaledImg, target);
 		ArrayList<Particle> particles = identifyParticles(thresholdedImg, target);
 		log.info("num particles: " + particles.size());
-		Image boxImg = drawParticleBox(inputImg, particles);
+		Image boxImg = drawParticleBox(scaledImg, particles);
 		return boxImg;
+		
 	}
 	
 	/**
@@ -123,9 +128,9 @@ public class VisionProcessor extends Subsystem {
 		NIVision.MeasurementType[] imaqProperties = { 	NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA,
 														NIVision.MeasurementType.MT_AREA,
 														NIVision.MeasurementType.MT_FIRST_PIXEL_X,
-														NIVision.MeasurementType.MT_FIRST_PIXEL_X,
-														NIVision.MeasurementType.MT_BOUNDING_RECT_HEIGHT,
-														NIVision.MeasurementType.MT_BOUNDING_RECT_WIDTH			};
+														NIVision.MeasurementType.MT_FIRST_PIXEL_Y,
+														NIVision.MeasurementType.MT_BOUNDING_RECT_WIDTH,
+														NIVision.MeasurementType.MT_BOUNDING_RECT_HEIGHT			};
 		
 		//the properties of a particle in order (areaPercent, area, x, y, width and height)
 		double[] parProperties = new double[6];

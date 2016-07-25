@@ -29,6 +29,7 @@ public class UpdateCam extends Command {
     	if(img != null) {
     		log.info("Processing image");
     		Image toDisplay = Robot.vision.findTest(img);
+//    		Image toDisplay = img;
     		CameraServer.getInstance().setImage(toDisplay);
     	}
     	else {
