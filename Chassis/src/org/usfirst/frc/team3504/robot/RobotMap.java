@@ -2,7 +2,6 @@ package org.usfirst.frc.team3504.robot;
 
 public class RobotMap {
 
-	//TODO: Fix ports for motors
 	public static final int MASTER_LEFT = 1;
 	public static final int SLAVE_LEFT = 2;
 	
@@ -10,9 +9,6 @@ public class RobotMap {
 	public static final int SLAVE_RIGHT = 12;
 	
 	public static final int JOYSTICK_PORT = 0;
-	
-	// List of cameras on the robot
-	public static final String[] CAMERA_NAMES = {"cam0"};
 	
 	// Encoder-to-distance constants
 	// How many ticks are there on the encoder wheel?

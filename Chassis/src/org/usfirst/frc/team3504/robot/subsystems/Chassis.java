@@ -55,9 +55,9 @@ public class Chassis extends Subsystem {
     	setDefaultCommand(new DriveByJoystick());
     }
     
-    public void driveByJoystick(double yDir, double xDir){
-    	SmartDashboard.putString("driveByJoystick?", yDir + "," + xDir);
-    	robotDrive.arcadeDrive(yDir, xDir);
+    public void driveByJoystick(double move, double rotate){
+    	SmartDashboard.putString("driveByJoystick?", move + "," + rotate);
+    	robotDrive.arcadeDrive(move, rotate);
     }
     
     public void printEncoderValues() {
