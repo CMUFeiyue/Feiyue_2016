@@ -1,14 +1,15 @@
-package org.usfirst.frc.team9999.robot;
 
-import org.usfirst.frc.team9999.robot.subsystems.Chassis;
+package org.usfirst.frc.team9999.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import org.usfirst.frc.team9999.robot.commands.ExampleCommand;
+import org.usfirst.frc.team9999.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import  org.usfirst.frc.team9999.robot.subsystems.Drivemotor;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -16,11 +17,10 @@ import  org.usfirst.frc.team9999.robot.subsystems.Drivemotor;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-
 public class Robot extends IterativeRobot {
-	public static Drivemotor DRIVEMOTOR; 
+
+	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
-	public static Chassis chassis;
 
     Command autonomousCommand;
     SendableChooser chooser;
@@ -30,10 +30,9 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	DRIVEMOTOR = new Drivemotor();
-    	chassis=new Chassis();
-    	oi = new OI();
+		oi = new OI();
         chooser = new SendableChooser();
+        chooser.addDefault("Default Auto", new ExampleCommand());
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
     }
