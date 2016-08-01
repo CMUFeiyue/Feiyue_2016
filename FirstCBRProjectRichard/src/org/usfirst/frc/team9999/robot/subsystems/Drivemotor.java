@@ -2,14 +2,16 @@ package org.usfirst.frc.team9999.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team9999.robot.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 public class Drivemotor extends Subsystem {
     private static CANTalon motor;
+    private DigitalInput limitSwitch;
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
     public Drivemotor(){
     	motor = new CANTalon(RobotMap.MOTOR_PORT);
+    	limitSwitch = new DigitalInput(RobotMap.LIMITSWITCH_PORT);
     }
 
     public void forward(){
@@ -17,9 +19,15 @@ public class Drivemotor extends Subsystem {
     }
     public void backward(){
     	motor.set(-0.4);
-    }
+    }			
     public void stop(){
     	motor.set(0);
+    }
+    public boolean isBumped(){
+    	return !limitSwitch.get();
+    }
+    public void initDefaulttCommand(){
+    	
     }
 }
 
