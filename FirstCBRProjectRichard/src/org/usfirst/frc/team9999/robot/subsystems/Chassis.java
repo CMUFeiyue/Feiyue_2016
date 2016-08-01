@@ -1,19 +1,19 @@
 package org.usfirst.frc.team9999.robot.subsystems;
 
 import org.usfirst.frc.team9999.robot.RobotMap;
-import org.usfirst.frc.team9999.robot.commands.DriveByJoystick;
+import org.usfirst.frc.team9999.robot.commands.Drive_By_Joystick;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.CANTalon;
 
 
 
 
 public class Chassis extends Subsystem{
+	
 private CANTalon masterLeft;
 
 private CANTalon slaveLeft;
@@ -59,7 +59,7 @@ public Chassis(){
 }
 
 public void initDefaultCommand() {
-	setDefaultCommand(new DriveByJoystick());
+	setDefaultCommand(new Drive_By_Joystick());
 }
 
 public void driveByJoystick(double yDir, double xDir){
@@ -109,34 +109,4 @@ public void stop() {
 }
 }
 			
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
