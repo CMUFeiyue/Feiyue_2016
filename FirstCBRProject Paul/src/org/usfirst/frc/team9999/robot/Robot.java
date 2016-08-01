@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 	   public static final DriveMotor DRIVEMOTOR = new DriveMotor();
 
 	public static final Subsystem DriveMotor = null;
+
+	public static final String DRIVEMOTOR2 = null;
      public static OI oi;
    
      Command autonomousCommand;
