@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class Shoot extends Command {
 	
-    public  DriveBackward() {
+    public  Shoot() {
        
     	
     }
@@ -17,6 +17,7 @@ public class Shoot extends Command {
 
    protected void execute() {
 	  Robot.DRIVEMOTOR.backward();
+	  Robot.DRIVEMOTOR2.forward();
     }
 
     protected boolean isFinished() {

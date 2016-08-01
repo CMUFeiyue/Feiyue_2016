@@ -9,5 +9,6 @@ public class RobotMap {
 
 	public static int MOTOR_PORT = 13;
     public static int JOYSTICK_PORT = 1;
+    public static int MOTOR_PORT2 = 2;
 }
 
