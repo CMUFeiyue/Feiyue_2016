@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="C:/Users/Girls of Steel/wpilib/java/current/lib/NetworkTables-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Girls of Steel/wpilib/java/current/lib/WPILib-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Girls of Steel/wpilib/NetworkTables-desktop.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Girls of Steel/jfreechart-1.0.19/jfreechart-1.0.19-demo.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
