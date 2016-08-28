@@ -37,7 +37,7 @@ public class TunePID<T extends TunablePIDSubsystem> extends Command {
     }
 
     protected void execute() {
-    	PIDSubsystem.setSetpoint(0.5);
+    	PIDSubsystem.setSetpoint(200);
     	PIDSubsystem.enable();
     	
     	double value = PIDSubsystem.getPIDController().getError();
@@ -55,7 +55,7 @@ public class TunePID<T extends TunablePIDSubsystem> extends Command {
 
     protected void end() {
     	log.info("done");
-    	PIDSubsystem.setSetpoint(0.0);
+    	PIDSubsystem.setSetpoint(0);
     	
     	Double[] valuesArray = values.toArray(new Double[values.size()]);
     	Robot.table.putNumberArray("values", valuesArray);

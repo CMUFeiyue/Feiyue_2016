@@ -22,8 +22,6 @@ public class PIDGearBox extends TunablePIDSubsystem {
 		driveSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
 		driveSlave.set(driveMaster.getDeviceID());
 		
-		//driveMaster.changeControlMode(CANTalon.TalonControlMode.Speed);
-		
      	setInputRange(-1, 1);
     	setPercentTolerance(10);
     	getPIDController().setContinuous(false);
@@ -36,7 +34,7 @@ public class PIDGearBox extends TunablePIDSubsystem {
     }
     
     protected double returnPIDInput() {
-    	return driveMaster.getOutputVoltage() / driveMaster.getBusVoltage();
+    	return driveMaster.getSpeed();
     }
     
     protected void usePIDOutput(double output) {
