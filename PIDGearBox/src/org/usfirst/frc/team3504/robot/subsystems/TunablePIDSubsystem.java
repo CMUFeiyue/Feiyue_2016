@@ -3,6 +3,7 @@ package org.usfirst.frc.team3504.robot.subsystems;
 import org.usfirst.frc.team3504.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class TunablePIDSubsystem extends PIDSubsystem {
@@ -22,23 +23,23 @@ public abstract class TunablePIDSubsystem extends PIDSubsystem {
     	this.kD = kD;
     	this.f = f;
     	
-    	printPIDValues();
+    	//printPIDValues();
 	}
     
-	public void updatePIDValues() {
-		this.kP = SmartDashboard.getNumber("kP", 0);
-		this.kI = SmartDashboard.getNumber("kI", 0);
-		this.kD = SmartDashboard.getNumber("kD", 0);
-		this.f = SmartDashboard.getNumber("f", 0);
+	public void updatePIDValues(NetworkTable table) {
+		this.kP = table.getNumber("kP", 0);
+		this.kI = table.getNumber("kI", 0);
+		this.kD = table.getNumber("kD", 0);
+		this.f = table.getNumber("f", 0);
 		
 		setPID();
 	}
 	    
-	public void printPIDValues() {
-		SmartDashboard.putNumber("kP", kP);
- 		SmartDashboard.putNumber("kI", kI);
- 		SmartDashboard.putNumber("kD", kD);
- 		SmartDashboard.putNumber("f", f);
+	public void printPIDValues(NetworkTable table) {
+		table.putNumber("kP", kP);
+ 		table.putNumber("kI", kI);
+ 		table.putNumber("kD", kD);
+ 		table.putNumber("f", f);
  	}
 	     
     public void setPID() {

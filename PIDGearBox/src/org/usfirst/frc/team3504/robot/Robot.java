@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team3504.robot;
 
+import org.usfirst.frc.team3504.robot.commands.TunePID;
 import org.usfirst.frc.team3504.robot.subsystems.PIDGearBox;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -18,8 +19,8 @@ public class Robot extends IterativeRobot {
 	public static NetworkTable table;
     Command autonomousCommand;
     SendableChooser chooser;
-    LiveWindow lw;
 	public static PIDGearBox driveTrain;
+	Command pidCommand;
 
     public void robotInit() {
     	System.out.println("robot init");
@@ -27,7 +28,6 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
         chooser = new SendableChooser();
         SmartDashboard.putData("Auto mode", chooser);
-        //lw = new LiveWindow();
     	table = NetworkTable.getTable("PID");
     }
 	
@@ -55,6 +55,12 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopPeriodic() {
+    	boolean startCommand = table.getBoolean("startCommand", false);
+    	
+    	if(startCommand) {
+    		pidCommand = new TunePID<PIDGearBox>(Robot.driveTrain);
+    	}
+    	
         Scheduler.getInstance().run();
     }
  

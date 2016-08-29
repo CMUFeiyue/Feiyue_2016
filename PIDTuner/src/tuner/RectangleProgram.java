@@ -10,6 +10,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
@@ -19,8 +21,12 @@ public class RectangleProgram extends JFrame
 {
 	private static final int WINDOW_WIDTH = 1000;
 	private static final int WINDOW_HEIGHT = 1000;
-	static final Font font = new Font("Verdana", Font.BOLD, 20);
+	private static final int TEAM_NUMBER = 9999;
+	private static final Font font = new Font("Verdana", Font.BOLD, 20);
+
+	private static NetworkTable table;
 	
+	private HashMap<String, JTextField> values;
 	private JPanel buttonPane;
 	private Container contentPane;
 	private ChartPanel graphPane;
@@ -60,8 +66,8 @@ public class RectangleProgram extends JFrame
 		valuePane.setLayout(new BoxLayout(valuePane, BoxLayout.LINE_AXIS));
 		valuePane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-		HashMap<String, JTextField> values = new HashMap<String, JTextField>();		
-		String [] valueNames = {"kP", "kI", "kD", "f"};
+		values = new HashMap<String, JTextField>();		
+		String [] valueNames = {"kP", "kI", "kD", "f", "timeout"};
 		JLabel tempLable;
 		JTextField tempField;
 		
@@ -126,12 +132,34 @@ public class RectangleProgram extends JFrame
 	 */
 	private class MotorButtonHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			runMotor();
+			
+			while(! table.getBoolean("doneCommand", false)) { /*do nothing */ };
 			
 			contentPane.remove(graphPane);
 			graph = createGraph();
 			ChartPanel graphPane = new ChartPanel(graph);
 			contentPane.add(graphPane, BorderLayout.CENTER);
 	        contentPane.validate();
+		}
+		
+		public void runMotor() {
+			for(String name : values.keySet()) {
+				String textBox = values.get(name).getText();
+				double value;
+				
+				if(! textBox.equals("")) {
+					//If the value has been changed in the text box, update it
+					value = Double.parseDouble(textBox);
+				} else {
+					//Otherwise take the old value from the roborio table
+					value = table.getNumber(name, 0);
+				}
+				
+				table.putNumber(name, value);
+			}
+			
+			table.putBoolean("startCommand", true);
 		}
 	}
 	
@@ -177,19 +205,40 @@ public class RectangleProgram extends JFrame
 	}
 	
 	/* 
+	 * Sets up the connection to the robot
 	 * Starts the window and button listeners
 	 */
 	public static void main(String[] args) {
+		NetworkTable.setClientMode();
+		NetworkTable.setIPAddress("roborio-" + TEAM_NUMBER + "-frc.local");
+		table = NetworkTable.getTable("PID");
 		RectangleProgram rectObj = new RectangleProgram();
 	}
 	
-	public static DefaultCategoryDataset createDataset() {
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
-		dataset.addValue( Math.random() , "temp" , Math.random() + "" );
-		dataset.addValue( Math.random() , "temp" , Math.random() + "" );
-		dataset.addValue( Math.random() , "temp",  Math.random() + "" );
-		return dataset;
+	/*
+	 * Reads the data from the roborio and creates a graphable dataset from it
+	 */
+	public static DefaultCategoryDataset createDataset() {	
+		double[] tempArray = {0};
+		double[] values = table.getNumberArray("values", tempArray);
+		double[] times = table.getNumberArray("times", tempArray);
+		
+		double temp = 0;
+		double kP = table.getNumber("kP", temp);
+		double kD = table.getNumber("kD", temp);
+		double kI = table.getNumber("kI", temp);
+		double f = table.getNumber("f", temp);
+		String PIDInfo = ("kP: " + kP + ", kD: " + kD + ", kI: " + kI + ", f: " + f);
+		
 
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
+		for(int i = 0; i < times.length; i++ ) {
+			double time = times[i];
+			double value = values[i];
+			dataset.addValue( value , PIDInfo , time + "" );
+		}
+		
+		return dataset;
 	}
 	
 	/*

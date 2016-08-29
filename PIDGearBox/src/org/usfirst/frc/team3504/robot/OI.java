@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
 	
-	Joystick joy = new Joystick(RobotMap.JOYSTICK_PORT); 
-	Button button1 = new JoystickButton(joy, 1);
+//	Joystick joy = new Joystick(RobotMap.JOYSTICK_PORT); 
+//	Button button1 = new JoystickButton(joy, 1);
 	
 	public OI () {
-		button1.whenPressed(new TunePID<PIDGearBox>(Robot.driveTrain)); 
+//		button1.whenPressed(new TunePID<PIDGearBox>(Robot.driveTrain)); 
 	}
 }
 

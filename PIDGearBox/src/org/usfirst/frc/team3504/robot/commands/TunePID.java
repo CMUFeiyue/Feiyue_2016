@@ -7,12 +7,14 @@ import java.util.logging.Logger;
 import org.usfirst.frc.team3504.robot.Robot;
 import org.usfirst.frc.team3504.robot.subsystems.TunablePIDSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class TunePID<T extends TunablePIDSubsystem> extends Command {
 
 	private ArrayList<Double> values;
 	private ArrayList<Double> times;
 	private T PIDSubsystem;
+	private NetworkTable table = NetworkTable.getTable("PID");
 	
 	public final static Logger log = Logger.getLogger(TunePID.class.getName());	
 	
@@ -24,14 +26,16 @@ public class TunePID<T extends TunablePIDSubsystem> extends Command {
 
     protected void initialize() {
     	log.info("init");
+    	
+    	table.putBoolean("startCommand", false);
+    	
     	values = new ArrayList<Double>();
     	times = new ArrayList<Double>();
     	
-    	PIDSubsystem.updatePIDValues();
+    	PIDSubsystem.updatePIDValues(table);
 
-    	//double timeout = table.getNumber("timeout", 0);
+    	double timeout = table.getNumber("timeout", 0);
 
-    	double timeout = 5;
     	this.setTimeout(timeout);
 		log.info("running");
     }
@@ -63,8 +67,9 @@ public class TunePID<T extends TunablePIDSubsystem> extends Command {
     	Double[] timesArray = times.toArray(new Double[times.size()]);
     	Robot.table.putNumberArray("times", timesArray);
 		
-    	PIDSubsystem.printPIDValues();
-		
+    	PIDSubsystem.printPIDValues(table);
+    	
+    	table.putBoolean("doneCommand", true);
 		log.info("" + PIDSubsystem.onTarget());
     }    	
 
