@@ -19,7 +19,7 @@ import javax.swing.*;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
-public class PIDGraph extends JFrame {
+public class PIDGraph {
 	private static final long serialVersionUID = 1L;
 	
 	public static NetworkTable table; 
@@ -29,7 +29,8 @@ public class PIDGraph extends JFrame {
 	public static String graphTitle;
 	public static String xLable;
 	public static String yLable;
-	public JFreeChart graph;
+	public static JFreeChart graph;
+	public static GraphDisplay graphDisplay;
 
 	public static void main( String[ ] args ) throws IOException {
 	//	NetworkTable.setClientMode();
@@ -42,6 +43,8 @@ public class PIDGraph extends JFrame {
 		setFileChooserFont(fc.getComponents(), font);	    
 
 		Scanner br = new Scanner(System.in); 
+		
+		graphDisplay = new GraphDisplay();
 	
 		graphTitle = "Error vs Time";
 		xLable = "Time";
@@ -64,23 +67,10 @@ public class PIDGraph extends JFrame {
 		}
 	}
 
-	public static void setFileChooserFont(Component[] comp, Font font) {
-		for(int x = 0; x < comp.length; x++) {
-			if(comp[x] instanceof Container) {
-				setFileChooserFont(((Container)comp[x]).getComponents(), font);
-			}
-			
-			try {
-				comp[x].setFont(font);
-			}
-			catch(Exception e){}//do nothing
-		}
-	}
-  
-	public Renderer () {
-	    super(graphTitle);
-
-	    this.graph = ChartFactory.createLineChart(
+	
+	public static void createGraph() {
+		graphDisplay.setTitle(graphTitle);			
+	    graph = ChartFactory.createLineChart(
 				graphTitle, xLable,
 				yLable,
 				toGraph, 
@@ -89,17 +79,16 @@ public class PIDGraph extends JFrame {
 		
 		ChartPanel chartPanel = new ChartPanel(graph);
 		chartPanel.setPreferredSize( new java.awt.Dimension(560, 367));
-		setContentPane(chartPanel);
-		
-		this.setAlwaysOnTop(true);
+		graphDisplay.setContentPane(chartPanel);
 	}
 	
 	public static void displayGraph() {		
-		PIDGraph toGraph = new PIDGraph();
+	//	PIDGraph toGraph = new PIDGraph();
+		createGraph();
 		
-		toGraph.pack( );
-		RefineryUtilities.centerFrameOnScreen(toGraph);
-		toGraph.setVisible( true );
+		graphDisplay.pack( );
+		RefineryUtilities.centerFrameOnScreen(graphDisplay);
+		graphDisplay.setVisible( true );
 	}
 	
 	public static void saveGraph() throws IOException {	
@@ -118,15 +107,6 @@ public class PIDGraph extends JFrame {
 		ChartUtilities.saveChartAsJPEG(chartPath, toGraph.graph, width ,height);
 	}
 	
-	public static DefaultCategoryDataset createDataset() {
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
-		dataset.addValue( 10 , "temp" , 1 + "" );
-		dataset.addValue( 20 , "temp" , 2 + "" );
-		dataset.addValue( 30 , "temp",  3  + "" );
-		return dataset;
-
-	}
-	/*
 	public static DefaultCategoryDataset createDataset() {	
 		double[] tempArray = {0};
 		double[] values = table.getNumberArray("values", tempArray);
@@ -149,5 +129,9 @@ public class PIDGraph extends JFrame {
 		
 		return dataset;
 	}
-	*/
+	
+	public static void runMotor() {
+		double pVal, iVal, dVal;
+		table.putNumber("kP", pVal);
+	}
 }
